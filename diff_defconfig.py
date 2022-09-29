@@ -2,7 +2,11 @@
 
 import sys
 import os
- 
+
+# Parse env variables
+# IGNORE_TYPE: don't care if driver is =m or =y
+f_ignore_type = True if os.getenv('IGNORE_TYPE') else False
+
 def usage(err = ""):
     if err != "":
         print(f"Error: {err}\n")
@@ -17,6 +21,12 @@ def read_file(file):
     fileObj.close()
     return lines
 
+def split_lines(file, token):
+    newfile = []
+    for line in file:
+        newfile.extend([line.split(token, 1)[0]])
+    return newfile
+
 # total arguments
 n = len(sys.argv)
 
@@ -26,7 +36,11 @@ if n != 3:
 file1 = read_file(sys.argv[1])
 file2 = read_file(sys.argv[2])
 diff = []
- 
+
+if f_ignore_type:
+    file1 = split_lines(file1, "=")
+    file2 = split_lines(file2, "=")
+
 for line in file1:
     if not line in file2 and len(line.strip()) > 0:
         diff.append(f"<- {line}")
