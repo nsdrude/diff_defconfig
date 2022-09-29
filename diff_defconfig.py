@@ -28,11 +28,11 @@ file2 = read_file(sys.argv[2])
 diff = []
  
 for line in file1:
-    if not line in file2 and not "#" in line and len(line.strip()) > 0:
+    if not line in file2 and len(line.strip()) > 0:
         diff.append(f"<- {line}")
 
 for line in file2:
-    if not line in file1 and not "#" in line and len(line.strip()) > 0:
+    if not line in file1 and len(line.strip()) > 0:
         diff.append(f"-> {line}")
 
 diff.sort(key = lambda x: x.split()[1])
