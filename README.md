@@ -1,4 +1,10 @@
-# Description
+# Introduction
+
+This repository contains scripts designed to work with defconfig files in a Git repository. These scripts allow users to generate and compare defconfig differences between branches in a systematic and efficient manner.
+
+## diff_defconfig.py
+
+### Description
 
 Simple utility to diff two defconfig files
 
@@ -10,7 +16,7 @@ Simple utility to diff two defconfig files
 ./diff_defconfig.py <file1> <file1>
 ```
 
-# Example
+### Example
 
 ```
 $ diff_defconfig.py configs/imx8mq_evk_defconfig configs/imx8mq_var_dart_defconfig
@@ -42,4 +48,52 @@ $ diff_defconfig.py configs/imx8mq_evk_defconfig configs/imx8mq_var_dart_defconf
 -> CONFIG_USB_GADGET_MANUFACTURER="Variscite"
 <- CONFIG_USB_TCPC=y
 <- CONFIG_VIDEO_LOGO=y
+```
+
+## diff_defconfig_on_branch
+
+`diff_defconfig_on_branch.sh` leverages diff_defconfig.py to compare two defconfigs on a specific branch.
+
+It is helpful to know the changes in `<branch a>` when porting `<branch b>`, so the same changes can be made to `<branch b>`.
+
+** Usage:**
+```
+# General
+$ ./diff_defconfig_on_branch.sh \
+    <repository> \
+    <branch> \
+    <defconfig a> \
+    <defconfig b>
+
+# Specific Example
+$ ./diff_defconfig_on_branch.sh \
+    ~/git/linux-imx/ \
+    varigit/lf-6.6.y_6.6.23-2.0.0_var01 \
+    imx_v8_defconfig \
+    imx8_var_defconfig
+```
+
+## diff_defconfig_between_branches
+
+`diff_defconfig_on_branch.sh` leverages diff_defconfig_on_branch.sh further by comparing the output of diff_defconfig_on_branch.sh on two branches.
+
+This diff should be empty when porting from `<branch a>` to `<branch b>` and don't want to make any functional changes.
+
+** Usage:**
+```
+# General
+$ ./diff_defconfig_on_branch.sh \
+    <repository> \
+    <branch a> \
+    <branch b> \
+    <defconfig a> \
+    <defconfig b>
+
+# Specific Example
+$ ./diff_defconfig_between_branches.sh \
+    ~/git/linux-imx/ \
+    varigit/lf-6.6.y_6.6.23-2.0.0_var01 \
+    varigit/lf-6.6.y_6.6.52-2.2.0_var01 \
+    imx_v8_defconfig \
+    imx8_var_defconfig
 ```
