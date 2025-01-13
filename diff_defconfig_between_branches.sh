@@ -87,5 +87,11 @@ echo "DIFF_FILE_1=$DIFF_FILE_1"
 echo "DIFF_FILE_2=$DIFF_FILE_2"
 echo "COMBINED_DIFF_FILE=$COMBINED_DIFF_FILE"
 
+# If there are changes, cat the combined diff file to the console
+if [ -s "$COMBINED_DIFF_FILE" ]; then
+    echo "\nChanges in the combined diff file:"
+    cat "$COMBINED_DIFF_FILE"
+fi
+
 # Print the final message
 echo "$DIFF_MESSAGE"
